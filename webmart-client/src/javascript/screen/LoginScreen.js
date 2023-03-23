@@ -6,45 +6,96 @@ function Signin_signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+    useEffect(() => {
+      const container = document.getElementById('container');
+      const signUpButton = document.getElementById('signUp');
+      const signInButton = document.getElementById('signIn');
+      const signUp = document.getElementById('real-sign-up');
+      const signIn = document.getElementById('real-sign-in');
+  
+      const handleSignUpClick = () => {
+        container.classList.add('right-panel-active');
+      };
+  
+      const handleSignInClick = () => {
+        container.classList.remove('right-panel-active');
+      };
+  
+      const handleSignupClick = async () => {
+        const data = {name, email, password};
+        try {
+          const response = await fetch('http://localhost:8000/api/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          const result = await response.json();
+          console.log(result);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      const handleSigninClick = () => {
+        console.log('Email:', email);
+        console.log('Password:', password);
+      };
+  
+      signUp.addEventListener('click', handleSignupClick);
+      signIn.addEventListener('click', handleSigninClick);
+      signUpButton.addEventListener('click', handleSignUpClick);
+      signInButton.addEventListener('click', handleSignInClick);
+  
+      return () => {
+        signUp.removeEventListener('click', handleSignupClick);
+        signIn.removeEventListener('click', handleSigninClick);
+        signUpButton.removeEventListener('click', handleSignUpClick);
+        signInButton.removeEventListener('click', handleSignInClick);
+      };
+    }, [name, email, password]);
 
-  useEffect(() => {
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const signUp = document.getElementById('real-sign-up');
-    const signIn = document.getElementById('real-sign-in');
-    const container = document.getElementById('container');
+
+  // useEffect(() => {
+  //   const signUpButton = document.getElementById('signUp');
+  //   const signInButton = document.getElementById('signIn');
+  //   const signUp = document.getElementById('real-sign-up');
+  //   const signIn = document.getElementById('real-sign-in');
+  //   const container = document.getElementById('container');
   
-    const handleSignUpClick = () => {
-      container.classList.add("right-panel-active");
-    };
+  //   const handleSignUpClick = () => {
+  //     container.classList.add("right-panel-active");
+  //   };
   
-    const handleSignInClick = () => {
-      container.classList.remove("right-panel-active");
-    };
+  //   const handleSignInClick = () => {
+  //     container.classList.remove("right-panel-active");
+  //   };
     
-    const handlesignupClick = () => {
-      console.log('Name:', name);
-      console.log('Email:', email);
-      console.log('Password:', password);
-    };
+  //   const handlesignupClick = () => {
+  //     console.log('Name:', name);
+  //     console.log('Email:', email);
+  //     console.log('Password:', password);
+  //   };
     
-    const handlesigninClick = () => {
-      console.log('Email:', email);
-      console.log('Password:', password);
-    };
+  //   const handlesigninClick = () => {
+  //     console.log('Email:', email);
+  //     console.log('Password:', password);
+  //   };
     
-    signUp.addEventListener('click', handlesignupClick);
-    signIn.addEventListener('click', handlesigninClick);
-    signUpButton.addEventListener('click', handleSignUpClick);
-    signInButton.addEventListener('click', handleSignInClick);
+  //   signUp.addEventListener('click', handlesignupClick);
+  //   signIn.addEventListener('click', handlesigninClick);
+  //   signUpButton.addEventListener('click', handleSignUpClick);
+  //   signInButton.addEventListener('click', handleSignInClick);
   
-    return () => {
-      signUp.removeEventListener('click', handlesignupClick);
-      signIn.removeEventListener('click', handlesigninClick);
-      signUpButton.removeEventListener('click', handleSignUpClick);
-      signInButton.removeEventListener('click', handleSignInClick);
-    };
-  }, [email, name, password]);
+  //   return () => {
+  //     signUp.removeEventListener('click', handlesignupClick);
+  //     signIn.removeEventListener('click', handlesigninClick);
+  //     signUpButton.removeEventListener('click', handleSignUpClick);
+  //     signInButton.removeEventListener('click', handleSignInClick);
+  //   };
+  // }, [email, name, password]);
 
   return (
     <div className="container" id="container">
